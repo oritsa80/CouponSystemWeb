@@ -26,7 +26,7 @@ import com.couponproject.exception.CouponSystemException;
 import com.couponproject.exception.CouponTitleAlreadyExistException;
 import com.couponproject.facade.CompanyFacade;
 import com.couponprojectserver.exceptions.CompanyFacadeServerException;
-import com.couponprojectserver.exceptions.EmptyCoupinException;
+import com.couponprojectserver.exceptions.EmptyCouponException;
 
 @Path("/CompanyService")
 public class CompanyFacadeServer {
@@ -42,12 +42,12 @@ public class CompanyFacadeServer {
 	@POST
 	@Path("/createCoupon/{coupon}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void createCoupon(@PathParam("coupon") Coupon coupon) throws CompanyFacadeServerException, EmptyCoupinException{
+	public void createCoupon(@PathParam("coupon") Coupon coupon) throws CompanyFacadeServerException, EmptyCouponException{
 		//getting the companyFacade saved in the session
 		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
 		//Verifying that the coupon sent is not empty
 		if(coupon==null){
-			throw new EmptyCoupinException("Coupon details are missing exception");
+			throw new EmptyCouponException("Coupon details are missing exception");
 		}
 		//the createCoupon function
 		try {
@@ -61,12 +61,12 @@ public class CompanyFacadeServer {
 	@DELETE
 	@Path("/removeCoupon/{coupon}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void removeCoupon(@PathParam("coupon") Coupon coupon) throws EmptyCoupinException, CompanyFacadeServerException{
+	public void removeCoupon(@PathParam("coupon") Coupon coupon) throws EmptyCouponException, CompanyFacadeServerException{
 		//getting the companyFacade saved in the session
 		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
 		//Verifying that the coupon sent is not empty
 		if(coupon==null){
-			throw new EmptyCoupinException("Coupon details are missing exception");
+			throw new EmptyCouponException("Coupon details are missing exception");
 		}
 		//the removeCoupon function
 		try {
@@ -81,12 +81,12 @@ public class CompanyFacadeServer {
 	@POST
 	@Path("/updateCoupon/{coupon}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void updateCoupon(@PathParam("coupon") Coupon coupon) throws EmptyCoupinException, CompanyFacadeServerException{
+	public void updateCoupon(@PathParam("coupon") Coupon coupon) throws EmptyCouponException, CompanyFacadeServerException{
 		//getting the companyFacade saved in the session
 		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
 		//Verifying that the coupon sent is not empty
 		if(coupon==null){
-			throw new EmptyCoupinException("Coupon details are missing exception");
+			throw new EmptyCouponException("Coupon details are missing exception");
 		}
 		//the updateCoupon function
 		try {
