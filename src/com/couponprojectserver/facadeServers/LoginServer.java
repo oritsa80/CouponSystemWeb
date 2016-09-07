@@ -13,57 +13,68 @@ import com.couponproject.facade.AdminFacade;
 import com.couponproject.facade.CompanyFacade;
 import com.couponproject.facade.CustomerFacade;
 import com.couponproject.system.CouponSystem;
+import com.couponprojectserver.constants.Messages;
 
 @Path("/login")
 public class LoginServer {
 	
-	@Context private HttpServletRequest request;
-	
 	private static final String Facade_Attr = "FACADE";
-
+	
+	@Context 
+	private HttpServletRequest request;
+	
 	@GET
 	@Path("/{name}/{password}/{clientType}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String login (@PathParam("name") String name, 
+	public int login (@PathParam("name") String name, 
 						@PathParam("password") String password, 
-						@PathParam("clientType") ClientType clientType){
+						@PathParam("clientType") String clientTypeTxt) {	
+		try {
+			// Converting client type to enum
+			ClientType clientType = ClientType.valueOf(clientTypeTxt); 
 		
-		switch(clientType){
-			case Admin: 	return loginAsAdmin(name, password);
-			case Company:	return loginAsCompany(name, password);
-			case Customer:	return loginAsCustomer(name, password);
+			// Checking for 
+			switch(clientType){
+				case Admin: 	return loginAsAdmin(name, password);
+				case Company:	return loginAsCompany(name, password);
+				case Customer:	return loginAsCustomer(name, password);
+			}
+		} catch (IllegalArgumentException | NullPointerException e) {
+			//TODO: throw exception OR return Messages.FAILURE ????
 		}
-		return "Failure"; 
+		return Messages.FAILURE;
 	}
 	
-	private String loginAsAdmin(String name, String password) {
+	// ADMIN
+	private int loginAsAdmin(String name, String password) {
 		AdminFacade adminFacade = CouponSystem.getInstance().loginAsAdmin(name, password);
 		if (adminFacade == null) {
-			return "Failure"; 
+			return Messages.FAILURE; 
 		} else {
 			request.getSession().setAttribute(Facade_Attr, adminFacade);
-			return "success";
+			return Messages.SUCCESS;
 		}
 	}
-
-	private String loginAsCompany(String name, String password) {
+	
+	// COMPANY
+	private int loginAsCompany(String name, String password) {
 		CompanyFacade compFacade = CouponSystem.getInstance().loginAsCompany(name, password);
 		if (compFacade == null) {
-			return "Failure";
+			return Messages.FAILURE;
 		} else {
 			request.getSession().setAttribute(Facade_Attr, compFacade);
-			return "success";
+			return Messages.SUCCESS;
 		}
-
 	}
 
-	private String loginAsCustomer(String name, String password) {
+	// CUSTOMER
+	private int loginAsCustomer(String name, String password) {
 		CustomerFacade custFacade = CouponSystem.getInstance().loginAsCustomer(name, password);
 		if (custFacade == null) {
-			return "Failure";
+			return Messages.FAILURE;
 		} else {
 			request.getSession().setAttribute(Facade_Attr, custFacade);
-			return "success";
+			return Messages.SUCCESS;
 		}
 	}
 }

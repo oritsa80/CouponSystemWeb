@@ -34,8 +34,6 @@ public class AdminFacadeServer {
 	@Context 
 	private HttpServletRequest request;
 	
-	//login??
-	
 	// ***************
 	// Company methods
 	// ***************
