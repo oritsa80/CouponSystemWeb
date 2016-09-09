@@ -31,6 +31,7 @@ import com.couponprojectserver.exceptions.EmptyCustomerException;
 public class AdminFacadeServer {
 	
 	private static final String Facade_Attr = "FACADE";
+	
 	@Context 
 	private HttpServletRequest request;
 	
@@ -38,24 +39,25 @@ public class AdminFacadeServer {
 	// Company methods
 	// ***************
 	
-	//createCompany(Company company)
+	//Create company
 	@POST
-	@Path("/createCompany/{company}")
+	@Path("createCompany/{name}/{password}/{email}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void createCompany(@PathParam("company") Company company) throws EmptyCompanyException, AdminFacadeServerException{
+	public void createCompany(@PathParam("name") String name, 
+			@PathParam("password") String password,
+			@PathParam("email") String email)
+			throws EmptyCompanyException, AdminFacadeServerException{
+
 		//getting the adminFacade saved in the session
 		AdminFacade adminFacade = (AdminFacade) request.getSession().getAttribute(Facade_Attr);
-		//Verifying that the company sent is not empty
-		if(company==null){
-			throw new EmptyCompanyException("Company details are missing Error");
-		}
-		//the createCompany function
+		
 		try {
+			Company company = new Company(name, password, email);
 			adminFacade.createCompany(company);
 		} catch (AdminFacadeException | IllegalPasswordException | EmailAlreadyExistsException
 				| CompanyAlreadyExistsException e) {
-			throw new AdminFacadeServerException("AdminFacadeServerException - "
-					+ "createCompany() Error: " + e.getMessage(), e);
+			e.printStackTrace();
+			// TODO:
 		}
 	}
 	

@@ -24,7 +24,7 @@ public class LoginServer {
 	private HttpServletRequest request;
 	
 	@GET
-	@Path("/{name}/{password}/{clientType}")
+	@Path("{name}/{password}/{clientType}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public int login (@PathParam("name") String name, 
 						@PathParam("password") String password, 
@@ -32,7 +32,6 @@ public class LoginServer {
 		try {
 			// Converting client type to enum
 			ClientType clientType = ClientType.valueOf(clientTypeTxt); 
-		
 			// Checking for 
 			switch(clientType){
 				case Admin: 	return loginAsAdmin(name, password);
