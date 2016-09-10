@@ -29,6 +29,7 @@ public class LoginServer {
 	public int login (@PathParam("name") String name, 
 						@PathParam("password") String password, 
 						@PathParam("clientType") String clientTypeTxt) {	
+	
 		try {
 			// Converting client type to enum
 			ClientType clientType = ClientType.valueOf(clientTypeTxt); 
