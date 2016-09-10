@@ -13,15 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.couponproject.beans.Company;
 import com.couponproject.beans.Customer;
-import com.couponproject.exception.AdminFacadeException;
-import com.couponproject.exception.CompanyAlreadyExistsException;
-import com.couponproject.exception.CompanyCouponDoesNotExistsException;
-import com.couponproject.exception.CompanyDoesNotExistException;
-import com.couponproject.exception.CouponDoesNotExistException;
-import com.couponproject.exception.CustomerAlreadyExistsException;
-import com.couponproject.exception.CustomerDoesNotExistException;
-import com.couponproject.exception.EmailAlreadyExistsException;
-import com.couponproject.exception.IllegalPasswordException;
+import com.couponproject.exception.*;
 import com.couponproject.facade.AdminFacade;
 import com.couponprojectserver.exceptions.AdminFacadeServerException;
 import com.couponprojectserver.exceptions.EmptyCompanyException;
@@ -54,9 +46,13 @@ public class AdminFacadeServer {
 		try {
 			Company company = new Company(name, password, email);
 			adminFacade.createCompany(company);
-		} catch (AdminFacadeException | IllegalPasswordException | EmailAlreadyExistsException
-				| CompanyAlreadyExistsException e) {
-			e.printStackTrace();
+		} catch (AdminFacadeException adminE) {
+			// TODO:
+		} catch (IllegalPasswordException passE) {
+			// TODO:			
+		} catch (CompanyAlreadyExistsException EE) {
+			// TODO:
+		} catch (EmailAlreadyExistsException mailE) {
 			// TODO:
 		}
 	}
