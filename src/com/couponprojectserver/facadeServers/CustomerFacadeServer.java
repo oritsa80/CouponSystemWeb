@@ -83,16 +83,17 @@ public class CustomerFacadeServer {
 	@GET
 	@Path("/getAllPurchasedCouponsByType/{type}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Coupon> getAllPurchasedCouponsByType(@PathParam("type") CouponType type) throws emptyTypeException, CustomerFacadeServerException{
+	public Collection<Coupon> getAllPurchasedCouponsByType(@PathParam("type") String type) throws emptyTypeException, CustomerFacadeServerException{
 		//getting the customerFacade saved in the session
 		CustomerFacade custFacade = (CustomerFacade) request.getSession().getAttribute(Facade_Attr);
+		CouponType couponType = CouponType.valueOf(type);
 		//check if type is not null
 		if(type==null){
 			throw new emptyTypeException("No Type received Error");
 		}
 		//the getAllPurchasedCouponsByType function
 		try {
-			return custFacade.getAllPurchasedCouponsByType(type);
+			return custFacade.getAllPurchasedCouponsByType(couponType);
 		} catch (CustomerFacadeException e) {
 			throw new CustomerFacadeServerException("CustomerFacadeServerException - "
 					+ "getAllPurchasedCouponsByType() Error: " + e.getMessage(), e);
@@ -103,14 +104,11 @@ public class CustomerFacadeServer {
 	@GET
 	@Path("/getAllPurchasedCouponsByPrice/{price}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Coupon> getAllPurchasedCouponsByPrice(@PathParam("price") Double price) throws 
+	public Collection<Coupon> getAllPurchasedCouponsByPrice(@PathParam("price") double price) throws 
 															emptyPriceException, CustomerFacadeServerException{
 		//getting the customerFacade saved in the session
 		CustomerFacade custFacade = (CustomerFacade) request.getSession().getAttribute(Facade_Attr);
-		//check if price is not null
-		if(price==null){
-			throw new emptyPriceException("No Price received Error");
-		}
+		//TODO: check if price is not null
 		//the getAllPurchasedCouponsByPrice function
 		try {
 			return custFacade.getAllPurchasedCouponsByPrice(price);

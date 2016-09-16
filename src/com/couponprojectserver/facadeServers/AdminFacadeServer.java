@@ -37,9 +37,7 @@ public class AdminFacadeServer {
 	@Produces(MediaType.APPLICATION_JSON)
 	public void createCompany(@PathParam("name") String name, 
 			@PathParam("password") String password,
-			@PathParam("email") String email)
-			throws EmptyCompanyException, AdminFacadeServerException{
-
+			@PathParam("email") String email){
 		//getting the adminFacade saved in the session
 		AdminFacade adminFacade = (AdminFacade) request.getSession().getAttribute(Facade_Attr);
 		
@@ -57,45 +55,65 @@ public class AdminFacadeServer {
 		}
 	}
 	
-	//removeCompany(Company company)
+	//removeCompany
 	@POST
-	@Path("/removeCompany/{company}")
+	@Path("/removeCompany/{comp_id}/{comp_name}/{comp_password}/{comp_email}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void removeCompany(@PathParam("company") Company company) throws EmptyCompanyException, AdminFacadeServerException{
+	public void removeCompany(@PathParam("comp_id") int comp_id, 
+			@PathParam("comp_name") String comp_name, 
+			@PathParam("comp_password") String comp_password, 
+			@PathParam("comp_email") String comp_email){
 		//getting the adminFacade saved in the session
 		AdminFacade adminFacade = (AdminFacade) request.getSession().getAttribute(Facade_Attr);
-		//Verifying that the coupon sent is not empty
-		if(company==null){
-			throw new EmptyCompanyException("Company details are missing Error");
-		}
+		//TODO: Verifying that the company sent is not empty
+		//creating new company instance
+		Company company = new Company(comp_id, comp_name, comp_password, comp_email);
 		//the removeCompany function
 		try {
 			adminFacade.removeCompany(company);
-		} catch (AdminFacadeException | CouponDoesNotExistException | CompanyDoesNotExistException
-				| CompanyCouponDoesNotExistsException e) {
-			throw new AdminFacadeServerException("AdminFacadeServerException - "
-					+ "removeCompany() Error: " + e.getMessage(), e);
+		} 
+		catch (AdminFacadeException adminE){
+			//TODO:
+		}
+		catch (CouponDoesNotExistException coupE){
+			//TODO:
+		}
+		catch (CompanyDoesNotExistException compE){
+			//TODO:
+		}
+		catch (CompanyCouponDoesNotExistsException compCoupE){
+			//TODO:
 		}
 	}
 	
-	//updateCompany(Company company)
+	//updateCompany
 	@POST
-	@Path("/updateCompany/{company}")
+	@Path("/updateCompany/{comp_id}/{comp_name}/{comp_password}/{comp_email}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void updateCompany(@PathParam("company") Company company) throws EmptyCompanyException, AdminFacadeServerException{
+	public void updateCompany(@PathParam("comp_id") int comp_id, 
+			@PathParam("comp_name") String comp_name, 
+			@PathParam("comp_password") String comp_password, 
+			@PathParam("comp_email") String comp_email) {
 		//getting the adminFacade saved in the session
 		AdminFacade adminFacade = (AdminFacade) request.getSession().getAttribute(Facade_Attr);
-		//Verifying that the coupon sent is not empty
-		if(company==null){
-			throw new EmptyCompanyException("Company details are missing Error");
-		}
+		//TODO: Verifying that the company sent is not empty
+		//creating new company instance
+		Company company = new Company(comp_id, comp_name, comp_password, comp_email);
 		//the removeCompany function
 		try {
 			adminFacade.updateCompany(company);
-		} catch (AdminFacadeException | IllegalPasswordException | EmailAlreadyExistsException
-				| CompanyAlreadyExistsException e) {
-			throw new AdminFacadeServerException("AdminFacadeServerException - "
-					+ "updateCompany() Error: " + e.getMessage(), e);
+		} 
+		catch (AdminFacadeException adminE){
+			//TODO:
+		}
+		catch (IllegalPasswordException passE){
+			//TODO:
+		}
+		catch (EmailAlreadyExistsException emailE){
+			//TODO:
+		}
+		catch (CompanyAlreadyExistsException compE){
+			//TODO:
 		}
 	}
 	
@@ -135,63 +153,85 @@ public class AdminFacadeServer {
 	// Customer method
 	// ***************	
 	
-	//createCustomer(Customer customer)
+	//createCustomer
 	@POST
-	@Path("/createCustomer/{customer}")
+	@Path("/createCustomer/{cust_name}/{cust_password}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void createCustomer(@PathParam("customer") Customer customer) throws EmptyCustomerException, AdminFacadeServerException{
+	public void createCustomer(@PathParam("cust_name") String cust_name,
+			@PathParam("cust_password") String cust_password){
+		
 		//getting the adminFacade saved in the session
 		AdminFacade adminFacade = (AdminFacade) request.getSession().getAttribute(Facade_Attr);
-		//Verifying that the customer sent is not empty
-		if(customer==null){
-			throw new EmptyCustomerException("Customer details are missing Error");
-		}
+		//TODO: Verifying that the customer sent is not empty
+		//creating new company instance
+		Customer customer = new Customer(cust_name, cust_password);	
 		//the createCustomer function
 		try {
 			adminFacade.createCustomer(customer);
-		} catch (AdminFacadeException | IllegalPasswordException | CustomerAlreadyExistsException e) {
-			throw new AdminFacadeServerException("AdminFacadeServerException - "
-					+ "createCustomer() Error: " + e.getMessage(), e);
+		} 
+		catch (AdminFacadeException adminE){
+			//TODO:
+		}
+		catch (IllegalPasswordException passE){
+			//TODO:
+		}
+		catch (CustomerAlreadyExistsException custE){
+			//TODO:
 		}
 	}
 	
-	//removeCustomer(Customer customer)
+	//removeCustomer
 	@POST
-	@Path("/removeCustomer/{customer}")
+	@Path("/removeCustomer/{cust_id}/{cust_name}/{cust_password}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void removeCustomer(@PathParam("customer") Customer customer) throws EmptyCustomerException, AdminFacadeServerException{
+	public void removeCustomer(@PathParam("cust_is") int cust_id,
+			@PathParam("cust_name") String cust_name,
+			@PathParam("cust_password") String cust_password){
+		
 		//getting the adminFacade saved in the session
 		AdminFacade adminFacade = (AdminFacade) request.getSession().getAttribute(Facade_Attr);
-		//Verifying that the customer sent is not empty
-		if(customer==null){
-			throw new EmptyCustomerException("Customer details are missing Error");
-		}
+		//TODO: Verifying that the customer sent is not empty
+		//creating new company instance
+		Customer customer = new Customer(cust_id, cust_name, cust_password);
 		//the createCustomer function
 		try {
 			adminFacade.removeCustomer(customer);
-		} catch (AdminFacadeException | CouponDoesNotExistException | CustomerDoesNotExistException e) {
-			throw new AdminFacadeServerException("AdminFacadeServerException - "
-					+ "removeCustomer() Error: " + e.getMessage(), e);
+		} 
+		catch (AdminFacadeException adminE){
+			//TODO:
+		}
+		catch (CouponDoesNotExistException coupE){
+			//TODO:
+		}
+		catch (CustomerDoesNotExistException custE){
+			//TODO:
 		}
 	}
 	
 	//updateCustomer(Customer customer)
 	@POST
-	@Path("/updateCustomer/{customer}")
+	@Path("/updateCustomer/{cust_id}/{cust_name}/{cust_password}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void updateCustomer(@PathParam("Customer") Customer customer) throws EmptyCustomerException, AdminFacadeServerException{
+	public void updateCustomer(@PathParam("cust_is") int cust_id,
+			@PathParam("cust_name") String cust_name,
+			@PathParam("cust_password") String cust_password){
 		//getting the adminFacade saved in the session
 		AdminFacade adminFacade = (AdminFacade) request.getSession().getAttribute(Facade_Attr);
-		//Verifying that the customer sent is not empty
-		if(customer==null){
-			throw new EmptyCustomerException("Customer details are missing Error");
-		}
+		//TODO: Verifying that the customer sent is not empty
+		//creating new company instance
+		Customer customer = new Customer(cust_id, cust_name, cust_password);
 		//the updateCustomer function
 		try {
 			adminFacade.updateCustomer(customer);
-		} catch (AdminFacadeException | IllegalPasswordException | CustomerAlreadyExistsException e) {
-			throw new AdminFacadeServerException("AdminFacadeServerException - "
-					+ "updateCustomer() Error: " + e.getMessage(), e);
+		} 
+		catch (AdminFacadeException adminE){
+			//TODO:
+		}
+		catch (IllegalPasswordException passE){
+			//TODO:
+		}
+		catch (CustomerAlreadyExistsException custE){
+			//TODO:
 		}
 	}
 	

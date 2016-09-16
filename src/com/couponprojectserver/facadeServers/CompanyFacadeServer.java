@@ -10,6 +10,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,62 +36,104 @@ public class CompanyFacadeServer {
 		
 	//login??
 	
-	//createCoupon(Coupon coupon)
+	//createCoupon
 	@POST
-	@Path("/createCoupon/{coupon}")
+	@Path("/createCoupon/{coup_title}/{startDate}/{endDate}/{amount}/{type}/{message}/{price}/{image}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void createCoupon(@PathParam("coupon") Coupon coupon) throws CompanyFacadeServerException, EmptyCouponException{
+	public void createCoupon(@PathParam("coup_title") String coup_title,
+			@PathParam("startDate") String startDate,
+			@PathParam("endDate") String endDate,
+			@PathParam("amount") int amount,
+			@PathParam("type") String type,
+			@PathParam("message") String message,
+			@PathParam("price") double price,
+			@PathParam("image") String image) {
 		//getting the companyFacade saved in the session
 		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
-		//Verifying that the coupon sent is not empty
-		if(coupon==null){
-			throw new EmptyCouponException("Coupon details are missing exception");
-		}
+		//TODO: Verifying that the coupon sent is not empty
+		//creating new coupon instance
+		LocalDate startLocalDate = LocalDate.parse(startDate);
+		LocalDate endLocalDate = LocalDate.parse(endDate);
+		CouponType coupoType = CouponType.valueOf(type);
+		Coupon coupon = new Coupon(coup_title, startLocalDate, endLocalDate, amount, coupoType, message, price, image);
 		//the createCoupon function
 		try {
 			compFacade.createCoupon(coupon);
-		} catch (CompanyFacadeException | CouponTitleAlreadyExistException e) {
-			throw new CompanyFacadeServerException("CompanyFacadeServerException - "
-					+ "createCoupon() Error: " + e.getMessage(), e);
+		} 
+		catch (CompanyFacadeException compE){
+			//TODO:
 		}
-	}
-	//removeCoupon(Coupon coupon)
-	@DELETE
-	@Path("/removeCoupon/{coupon}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void removeCoupon(@PathParam("coupon") Coupon coupon) throws EmptyCouponException, CompanyFacadeServerException{
-		//getting the companyFacade saved in the session
-		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
-		//Verifying that the coupon sent is not empty
-		if(coupon==null){
-			throw new EmptyCouponException("Coupon details are missing exception");
-		}
-		//the removeCoupon function
-		try {
-			compFacade.removeCoupon(coupon);
-		} catch (CompanyFacadeException | CouponDoesNotExistException | CompanyCouponDoesNotExistsException e) {
-			throw new CompanyFacadeServerException("CompanyFacadeServerException - "
-					+ "removeCoupon() Error: " + e.getMessage(), e);
+		catch (CouponTitleAlreadyExistException coupE){
+			//TODO:
 		}
 	}
 	
-	//updateCoupon(Coupon coupon)
-	@POST
-	@Path("/updateCoupon/{coupon}")
+	//removeCoupon
+	@DELETE
+	@Path("/removeCoupon/{coup_id}/{coup_title}/{startDate}/{endDate}/{amount}/{type}/{message}/{price}/{image}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void updateCoupon(@PathParam("coupon") Coupon coupon) throws EmptyCouponException, CompanyFacadeServerException{
+	public void removeCoupon(@PathParam("coup_id") int coup_id,
+			@PathParam("coup_title") String coup_title,
+			@PathParam("startDate") String startDate,
+			@PathParam("endDate") String endDate,
+			@PathParam("amount") int amount,
+			@PathParam("type") String type,
+			@PathParam("message") String message,
+			@PathParam("price") double price,
+			@PathParam("image") String image){
 		//getting the companyFacade saved in the session
 		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
-		//Verifying that the coupon sent is not empty
-		if(coupon==null){
-			throw new EmptyCouponException("Coupon details are missing exception");
+		//TODO: Verifying that the coupon sent is not empty
+		//creating new coupon instance
+		LocalDate startLocalDate = LocalDate.parse(startDate);
+		LocalDate endLocalDate = LocalDate.parse(endDate);
+		CouponType coupoType = CouponType.valueOf(type);
+		Coupon coupon = new Coupon(coup_id, coup_title, startLocalDate, endLocalDate, amount, coupoType, message, price, image);
+		//the removeCoupon function
+		try {
+			compFacade.removeCoupon(coupon);
+		} 
+		catch (CompanyFacadeException compE){
+			//TODO:
 		}
+		catch (CouponDoesNotExistException coupE){
+			//TODO:
+		}
+		catch (CompanyCouponDoesNotExistsException compCoupE){
+			//TODO:
+		}
+	}
+	
+	//updateCoupon
+	@POST
+	@Path("/updateCoupon/{coup_id}/{coup_title}/{startDate}/{endDate}/{amount}/{type}/{message}/{price}/{image}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void updateCoupon(@PathParam("coup_id") int coup_id,
+			@PathParam("coup_title") String coup_title,
+			@PathParam("startDate") String startDate,
+			@PathParam("endDate") String endDate,
+			@PathParam("amount") int amount,
+			@PathParam("type") String type,
+			@PathParam("message") String message,
+			@PathParam("price") double price,
+			@PathParam("image") String image){
+		//getting the companyFacade saved in the session
+		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
+		//TODO: Verifying that the coupon sent is not empty
+		//creating new coupon instance
+		LocalDate startLocalDate = LocalDate.parse(startDate);
+		LocalDate endLocalDate = LocalDate.parse(endDate);
+		CouponType coupoType = CouponType.valueOf(type);
+		Coupon coupon = new Coupon(coup_id, coup_title, startLocalDate, endLocalDate, amount, coupoType, message, price, image);		
 		//the updateCoupon function
 		try {
 			compFacade.updateCoupon(coupon);
-		} catch (CompanyFacadeException | CouponTitleAlreadyExistException e) {
-			throw new CompanyFacadeServerException("CompanyFacadeServerException - "
-					+ "updateCoupon() Error: " + e.getMessage(), e);
+		}
+		catch (CompanyFacadeException compE){
+			//TODO:
+		}
+		catch (CouponTitleAlreadyExistException coupE){
+			//TODO:
 		}
 	}
 	
@@ -142,16 +185,17 @@ public class CompanyFacadeServer {
 		}
 	}
 	
-	//getCouponByType(CouponType type)
+	//getCouponByType
 	@GET
 	@Path("/getCouponByType/{type}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Coupon> getCouponByType(@PathParam("type") CouponType type) throws CompanyFacadeServerException{
+	public Collection<Coupon> getCouponByType(@PathParam("type") String type) throws CompanyFacadeServerException{
 		//getting the companyFacade saved in the session
 		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
+		CouponType coupoType = CouponType.valueOf(type);
 		//the getCouponByType function
 		try {
-			return compFacade.getCouponByType(type);
+			return compFacade.getCouponByType(coupoType);
 		} catch (CompanyFacadeException e) {
 			throw new CompanyFacadeServerException("CompanyFacadeServerException - "
 					+ "getCouponByType() Error: " + e.getMessage(), e);
@@ -174,31 +218,33 @@ public class CompanyFacadeServer {
 		}
 	}
 	
-	//getCouponByStartDate(LocalDate date)
+	//getCouponByStartDate
 	@GET
 	@Path("/getCouponByStartDate/{date}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Coupon> getCouponByStartDate(@PathParam("date") LocalDate date) throws CompanyFacadeServerException{
+	public Collection<Coupon> getCouponByStartDate(@PathParam("date") String startDate) throws CompanyFacadeServerException{
 		//getting the companyFacade saved in the session
 		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
+		LocalDate startLocalDate = LocalDate.parse(startDate);
 		//the getCouponByStartDate function
 		try {
-			return compFacade.getCouponByStartDate(date);
+			return compFacade.getCouponByStartDate(startLocalDate);
 		} catch (CompanyFacadeException e) {
 			throw new CompanyFacadeServerException("CompanyFacadeServerException - "
 					+ "getCouponByStartDate() Error: " + e.getMessage(), e);
 		}
 	}
-	//getCouponByEndDate(LocalDate date)
+	//getCouponByEndDate
 	@GET
 	@Path("/getCouponByEndDate/{date}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<Coupon> getCouponByEndDate(@PathParam("date") LocalDate date) throws CompanyFacadeServerException{
+	public Collection<Coupon> getCouponByEndDate(@PathParam("date") String endDate) throws CompanyFacadeServerException{
 		//getting the companyFacade saved in the session
 		CompanyFacade compFacade = (CompanyFacade) request.getSession().getAttribute(Facade_Attr);
+		LocalDate endLocalDate = LocalDate.parse(endDate);
 		//the getCouponByStartDate function
 		try {
-			return compFacade.getCouponByEndDate(date);
+			return compFacade.getCouponByEndDate(endLocalDate);
 		} catch (CompanyFacadeException e) {
 			throw new CompanyFacadeServerException("CompanyFacadeServerException - "
 					+ "getCouponByEndDate() Error: " + e.getMessage(), e);
